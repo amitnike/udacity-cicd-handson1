@@ -23,7 +23,10 @@ pipeline {
          stage('Upload to AWS') {
               steps {
                   withAWS(region:'us-west-2',credentials:'aws-static') {
+                      pwd(); //Log current directory
+
                   sh 'echo "Uploading content with AWS creds"'
+                      def identity=awsIdentity();//Log AWS credentials
                       s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'static-jenkins-pipeline')
                   }
               }
